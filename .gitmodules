@@ -1,0 +1,9 @@
+[submodule "module/libcstring"]
+	path = src/module/libcstring
+	url = https://github.com/urbanspr1nter/libcstring.git
+[submodule "module/linenoise"]
+	path = src/module/linenoise
+	url = https://github.com/urbanspr1nter/linenoise.git
+[submodule "module/cJSON"]
+	path = src/module/cJSON
+	url = https://github.com/urbanspr1nter/cJSON.git
