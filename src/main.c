@@ -41,6 +41,8 @@ int main(void) {
 
     while ((line = prompt(isMultiLine)) != NULL) {
         input = cstring_create(input, line);
+        logLog("Got raw input: [%s], length: [%d]", input->text, input->length);
+
         if (!isMultiLine && cstring_equals(input, exitToken)) {
             break;
         }
