@@ -1,8 +1,6 @@
 #include "config.h"
 #include "common.h"
 
-static struct Configuration* config;
-
 char* prompt(bool isMultiLine) {
     if (isMultiLine) {
         return linenoise("");
@@ -21,7 +19,12 @@ void handleCommand(String* command) {
 int main(void) {
     linenoiseSetMultiLine(1);
 
-    config = config_loadConfiguration(config, "config.json");    
+    config = config_loadConfiguration("config.json");    
+    if (config->debug) {
+        logLog("Configuration loaded.");
+        logLog("\tpromptString: %s", config->promptString);
+        logLog("\tdebug: %d", config->debug);
+    }
 
     String* exitToken = NULL;
     String* multiLineToken = NULL;
@@ -32,21 +35,35 @@ int main(void) {
     newLineToken = cstring_charToString(newLineToken, '\n');
 
     String* input = NULL;
+    input = cstring_create(input, "");
+
     char* line = NULL;
 
     bool isMultiLine = false;
+
     String* invoke = NULL;
-    String* invokeTrimmed = NULL;
     invoke = cstring_create(invoke, "");
+
+    String* invokeTrimmed = NULL;
+    invokeTrimmed = cstring_create(invokeTrimmed, "");
 
     while ((line = prompt(isMultiLine)) != NULL) {
         input = cstring_create(input, line);
+
+        if (config->debug) {
+            logLog("input: [%s], length: [%d]", input->text, input->length);
+        }
+
         if (!isMultiLine && cstring_equals(input, exitToken)) {
             break;
         }
 
         if (cstring_equals(input, multiLineToken)) {
             isMultiLine = !isMultiLine;
+            if (config->debug) {
+                logLog("multiLineToken read. new state: %d", isMultiLine);
+            }
+
             if (isMultiLine) {
                 goto reinitialize_prompt;
             }
@@ -69,12 +86,6 @@ int main(void) {
         linenoiseHistoryAdd(invokeTrimmed->text);
         handleCommand(invokeTrimmed);
 
-reinitialize_prompt:
-        if (input != NULL) {
-            cstring_free(input);
-            input = NULL;
-        }
-
         if (invokeTrimmed != NULL) {
             cstring_free(invokeTrimmed);
             invokeTrimmed = NULL;
@@ -85,10 +96,21 @@ reinitialize_prompt:
             invoke = NULL;
         }
 
-        linenoiseFree(line);
-
         invoke = cstring_create(invoke, "");
+
+reinitialize_prompt:
+        if (input != NULL) {
+            cstring_free(input);
+            input = NULL;
+        }
+
+        linenoiseFree(line);
     }
+
+
+    cstring_free(exitToken);
+    cstring_free(multiLineToken);
+    cstring_free(newLineToken);
 
     return 0;
 }

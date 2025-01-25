@@ -5,9 +5,13 @@
 
 struct Configuration {
     char* promptString;
+    char* driver;
+    bool debug;
 };
 
-struct Configuration* config_loadConfiguration(struct Configuration* config, char* filepath);
+extern struct Configuration* config;
+
+struct Configuration* config_loadConfiguration(char* filepath);
 void config_freeConfiguration(struct Configuration* config);
 
 #endif

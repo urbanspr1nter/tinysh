@@ -1,3 +1,5 @@
 {
-  "promptString": "@i> "
+  "promptString": "@i> ",
+  "driver": "swe-assistant-sm",
+  "debug": true
 }

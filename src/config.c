@@ -1,7 +1,10 @@
 #include "config.h"
 #include "file.h"
+#include "jsonutil.h"
 
-struct Configuration* config_loadConfiguration(struct Configuration* config, char* filepath) {
+struct Configuration* config = NULL;
+
+struct Configuration* config_loadConfiguration(char* filepath) {
     struct File* f;
     f = file_readAllText(f, filepath);
 
@@ -26,13 +29,22 @@ struct Configuration* config_loadConfiguration(struct Configuration* config, cha
         configPromptStringValue,
         cJSON_GetObjectItemCaseSensitive(jsonConfig, "promptString")->valuestring
     );
-
     config->promptString = configPromptStringValue->text;
+
+    String* configDriverValue;
+    configDriverValue = cstring_create(
+        configDriverValue,
+        cJSON_GetObjectItemCaseSensitive(jsonConfig, "driver")->valuestring
+    );
+
+    config->driver = configDriverValue->text;
+    config->debug = jsonutil_getBoolFromJson(cJSON_GetObjectItemCaseSensitive(jsonConfig, "debug"));
 
     return config;
 }
 
 void config_freeConfiguration(struct Configuration* config) {
     free(config->promptString);
+    free(config->driver);
     free(config);
 }
