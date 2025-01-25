@@ -15,7 +15,7 @@ static uint64_t fileSize(char* path) {
     return filesize;
 }
 
-struct File* file_readAllText(struct File* result, char* path) {
+struct File* file_readAllText(struct File* result, const char* path) {
     size_t filesize = fileSize(path);
 
     if (!filesize) {
