@@ -6,7 +6,7 @@ char* prompt(bool isMultiLine) {
         return linenoise("");
     }
 
-    return linenoise(config->promptString);
+    return linenoise(config->promptString->text);
 }
 
 /**
@@ -22,7 +22,7 @@ int main(void) {
     config = config_loadConfiguration("config.json");    
     if (config->debug) {
         logLog("Configuration loaded.");
-        logLog("\tpromptString: %s", config->promptString);
+        logLog("\tpromptString: %s", config->promptString->text);
         logLog("\tdebug: %d", config->debug);
     }
 

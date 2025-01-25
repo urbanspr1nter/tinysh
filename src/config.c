@@ -29,7 +29,7 @@ struct Configuration* config_loadConfiguration(char* filepath) {
         configPromptStringValue,
         cJSON_GetObjectItemCaseSensitive(jsonConfig, "promptString")->valuestring
     );
-    config->promptString = configPromptStringValue->text;
+    config->promptString = configPromptStringValue;
 
     String* configDriverValue;
     configDriverValue = cstring_create(
@@ -37,14 +37,16 @@ struct Configuration* config_loadConfiguration(char* filepath) {
         cJSON_GetObjectItemCaseSensitive(jsonConfig, "driver")->valuestring
     );
 
-    config->driver = configDriverValue->text;
+    config->driver = configDriverValue;
     config->debug = jsonutil_getBoolFromJson(cJSON_GetObjectItemCaseSensitive(jsonConfig, "debug"));
+
+    cJSON_Delete(jsonConfig);
 
     return config;
 }
 
-void config_freeConfiguration(struct Configuration* config) {
-    free(config->promptString);
-    free(config->driver);
+void config_freeConfiguration() {
+    cstring_free(config->promptString);
+    cstring_free(config->driver);
     free(config);
 }
