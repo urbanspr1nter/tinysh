@@ -1,5 +1,6 @@
 {
   "promptString": "@i> ",
   "driver": "swe-assistant-sm",
-  "debug": true
+  "debug": true,
+  "apiEndpoint": "http://localhost:11434/v1/chat/completions"
 }
