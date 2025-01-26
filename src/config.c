@@ -36,8 +36,15 @@ struct Configuration* config_loadConfiguration(char* filepath) {
         configDriverValue,
         cJSON_GetObjectItemCaseSensitive(jsonConfig, "driver")->valuestring
     );
-
     config->driver = configDriverValue;
+    
+    String* configApiEndpointValue;
+    configApiEndpointValue = cstring_create(
+        configApiEndpointValue,
+        cJSON_GetObjectItemCaseSensitive(jsonConfig, "apiEndpoint")->valuestring
+    );
+    config->apiEndpoint = configApiEndpointValue;
+
     config->debug = jsonutil_getBoolFromJson(cJSON_GetObjectItemCaseSensitive(jsonConfig, "debug"));
 
     cJSON_Delete(jsonConfig);

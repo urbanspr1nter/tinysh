@@ -6,6 +6,7 @@
 struct Configuration {
     String* promptString;
     String* driver;
+    String* apiEndpoint;
     bool debug;
 };
 
