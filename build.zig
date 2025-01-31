@@ -11,6 +11,7 @@ pub fn build(b: *std.Build) void {
         "src/main.c", 
         "src/memory.c", 
         "src/message.c", 
+        "src/driver/replc.c",
         "src/module/cJSON/cJSON.c",
         "src/module/clog/log.c",
         "src/module/libcstring/src/c_string.c",

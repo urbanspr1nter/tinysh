@@ -7,6 +7,7 @@ struct Configuration {
     String* promptString;
     String* driver;
     String* apiEndpoint;
+    String* tempFolder;
     bool debug;
 };
 

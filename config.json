@@ -1,6 +1,7 @@
 {
   "promptString": "@i> ",
-  "driver": "swe-assistant-sm",
+  "driver": "replc",
   "debug": true,
-  "apiEndpoint": "http://localhost:11434/v1/chat/completions"
+  "apiEndpoint": "http://localhost:11434/v1/chat/completions",
+  "tempFolder": "/home/rngo/code/tinysh/temp"
 }

@@ -45,6 +45,13 @@ struct Configuration* config_loadConfiguration(char* filepath) {
     );
     config->apiEndpoint = configApiEndpointValue;
 
+    String* configTempFolderValue;
+    configTempFolderValue = cstring_create(
+        configTempFolderValue,
+        cJSON_GetObjectItemCaseSensitive(jsonConfig, "tempFolder")->valuestring
+    );
+    config->tempFolder = configTempFolderValue;
+
     config->debug = jsonutil_getBoolFromJson(cJSON_GetObjectItemCaseSensitive(jsonConfig, "debug"));
 
     cJSON_Delete(jsonConfig);
@@ -55,5 +62,7 @@ struct Configuration* config_loadConfiguration(char* filepath) {
 void config_freeConfiguration() {
     cstring_free(config->promptString);
     cstring_free(config->driver);
+    cstring_free(config->apiEndpoint);
+    cstring_free(config->tempFolder);
     free(config);
 }
